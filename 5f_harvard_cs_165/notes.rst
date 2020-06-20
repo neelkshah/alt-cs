@@ -19,3 +19,10 @@ Thread per worker mapping
 
 Process Pool
    A definite number of processes are part of the pool. This reduces the memory overhead. After execution, processes are returned to the pool for reuse. The size of the pool can be dynamic.
+
+Shared Data
+   In the *thread-per-worker* model, data sharing is easy since threads share the same address space. In the other models, shared memory is used. In all three models, data needs to be moved from DBMS to client. Requests need to be moved into the server processes and results need to be moved back out. Various buffers are used, the two major types being **disk I/O buffers** and **client communication buffers**.
+
+Disk I/O buffers
+   All persistent database data is staged through the DBMS buffer pool. With thread per DBMS worker, the buffer pool is simply a heap-resident data structure available to all threads in the shared DBMS address space. In the other two models, the buffer pool is allocated in shared memory available to all processes. The end result in all three DBMS models is that the buffer pool is a large shared data structure available to all database threads/processes.
+   As log entries are generated during transaction processing, they are staged to an in-memory queue that is periodically flushed to the log disk(s) in FIFO order. This queue is usually called the log tail.
