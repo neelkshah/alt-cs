@@ -25,4 +25,4 @@ Shared Data
 
 Disk I/O buffers
    All persistent database data is staged through the DBMS buffer pool. With thread per DBMS worker, the buffer pool is simply a heap-resident data structure available to all threads in the shared DBMS address space. In the other two models, the buffer pool is allocated in shared memory available to all processes. The end result in all three DBMS models is that the buffer pool is a large shared data structure available to all database threads/processes.
-   As log entries are generated during transaction processing, they are staged to an in-memory queue that is periodically flushed to the log disk(s) in FIFO order. This queue is usually called the log tail.
+|   As log entries are generated during transaction processing, they are staged to an in-memory queue that is periodically flushed to the log disk(s) in FIFO order. This queue is usually called the log tail. With thread per DBMS worker, the log tail is simply a heap-resident data structure. Either a separate process manages the log (efficient IPC mechanisms) or the log tail is allocated in shared memory
