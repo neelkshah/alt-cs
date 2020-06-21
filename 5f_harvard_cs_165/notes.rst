@@ -36,3 +36,13 @@ Parallel Architecture
 
 Shared Memory
    Each processor is equidistant from and shares memory and caches.
+
+*****************
+Database Cracking
+*****************
+
+Keywords
+   *self-organizing databases*, *column organized datastores*,::
+      *keyword*
+
+Workload is not always stable. An index is created with a workload profile in mind. You spend resources to create and maintain indices. One problem in CS is that we build a data structure assuming we know our exact need and its exact use, and expend time and resources building said structure.
