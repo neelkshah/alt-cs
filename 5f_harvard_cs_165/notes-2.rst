@@ -21,5 +21,5 @@ Columns are brought in one-at-a-time. For example, if a query selects col A and 
 
 Row stores operate on the *volcano model* - each processor asks for a tuple, applies all operators, asks for the next tuple and so on. Note that memory needs are low here. But you do carry the entire tuple for each operator. Column stores operate on the *block model*. What reaches the CPU is only the data you need.
 
-``Implementation of operators is a sensitive task. How a select is implemented (scanning, hash table, etc) depends on a number of factors - data distribution, resource constraints, and most importantly in the case of row stores, on the output of the previous operator. In column stores, this optimization at the operator level can be deferred as far back as possible, since at each step, we know the contents in the column and everything about them.``
+Implementation of operators is a sensitive task. How a select is implemented (scanning, hash table, etc) depends on a number of factors - data distribution, resource constraints, and most importantly in the case of row stores, on the output of the previous operator. In column stores, this optimization at the operator level can be deferred as far back as possible, since at each step, we know the contents in the column and everything about them.
 
