@@ -26,4 +26,9 @@ Shared Data
 Disk I/O buffers
    All persistent database data is staged through the **DBMS buffer pool**. With thread per DBMS worker, the buffer pool is simply a heap-resident data structure available to all threads in the shared DBMS address space. In the other two models, the buffer pool is allocated in shared memory available to all processes. The end result in all three DBMS models is that the buffer pool is a large shared data structure available to all database threads/processes.
    As **log entries** are generated during transaction processing, they are staged to an in-memory queue that is periodically flushed to the log disk(s) in FIFO order. This queue is usually called the log tail. With thread per DBMS worker, the log tail is simply a heap-resident data structure. Either a separate process manages the log (efficient IPC mechanisms) or the log tail is allocated in shared memory like the buffer pool above.
-   The **lock table** is also shared by all workers and is shared in a manner similar to the buffer pool.
+
+Client Communication buffers
+   SQL is typically used in a *pull* model. Client socket is used to enqueue results. More complex approaches use client side cursor caching and use the client to store results that are likely to be fetched in the near future instead of relying on OS buffers.
+
+Lock Table
+   The lock table is also shared by all workers and is shared in a manner similar to the buffer pool.
