@@ -6,10 +6,7 @@ Architecture of Database Systems
 Process Models
 **************
 
-A DBMS Worker is the thread of execution in the DBMS that does work on behalf of a DBMS Client. A 1:1 mapping exists between a DBMS worker and a DBMS Client: the DBMS worker handles all SQL requests from a single
-DBMS Client. The DBMS client sends SQL requests to the
-DBMS server. The worker executes each request and returns
-the result to the client.
+A DBMS Worker is the thread of execution in the DBMS that does work on behalf of a DBMS Client. A 1:1 mapping exists between a DBMS worker and a DBMS Client: the DBMS worker handles all SQL requests from a single DBMS Client. The DBMS client sends SQL requests to the DBMS server. The worker executes each request and returns the result to the client.
 
 Process per worker mapping
    Gets OS support for scheduling and handling standard bugs like memory overruns. Sharing in-memory data structures across workers is a challenge. These must be explicitly allocated in OS-supported shared memory accessible across worker-processes. Scaling is a problem as processes have a large state to be stored (as compared to threads), and context-switching is expensive.
@@ -32,3 +29,10 @@ Client Communication buffers
 
 Lock Table
    The lock table is also shared by all workers and is shared in a manner similar to the buffer pool.
+
+*********************
+Parallel Architecture
+*********************
+
+Shared Memory
+   Each processor is equidistant from and shares memory and caches.
