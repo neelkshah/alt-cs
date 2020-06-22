@@ -3,6 +3,7 @@ Database Cracking
 #################
 
 Keywords::
+
    self-organizing databases, column organized datastores, sideways cracking
 
 ***************
