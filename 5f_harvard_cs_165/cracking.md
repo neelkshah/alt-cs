@@ -8,7 +8,7 @@ self-organizing databases, column organized datastores, sideways cracking
 
 ## Quick Refresher
 
-[Database indexing](https://github.com/neelkshah/alt-cs/blob/master/5f_harvard_cs_165/indexing.md)
+[Database indexing](indexing.md)
 
 ## Introduction
 
