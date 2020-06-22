@@ -5,6 +5,12 @@ Database Cracking
 Keywords
    *self-organizing databases*, *column organized datastores*, *sideways cracking*
 
+***************
+Quick Refresher
+***************
+
+1. `Database indexing <https://web.cs.ucdavis.edu/~green/courses/ecs165a-w11/7-indexes.pdf>`_
+
 ************
 Introduction
 ************
