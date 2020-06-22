@@ -1,14 +1,11 @@
 # Database Indexing
 
-[UC Davis Paper] (https://web.cs.ucdavis.edu/~green/courses/ecs165a-w11/7-indexes.pdf)
+[UC Davis Paper](https://web.cs.ucdavis.edu/~green/courses/ecs165a-w11/7-indexes.pdf)
 
 ## Introduction
 
-> Search key
->     Attribute or combination of attributes used to look up records in a file
-
-> Index file
->     Consists of records (index entries) of the form (search key value, pointer to block in data file)
+* Search key: Attribute or combination of attributes used to look up records in a file
+* Index file: Consists of records (index entries) of the form (search key value, pointer to block in data file)
 
 Index files are typically much smaller than original data.
 
@@ -28,13 +25,11 @@ Indexing techniques are evaluated on the basis of:
 
 In an ordered index file, index entries are sorted by search key values.
 
-> Primary index
->     In a sequentially ordered data file, the index whose search key specifies the sequential order of the file. For a relation, there can be at most one primary index.
+* Primary index: In a sequentially ordered data file, the index whose search key specifies the sequential order of the file. For a relation, there can be at most one primary index.
 
 > The search key and primary key need not be the same. For example, primary key could be order_id, but search key could be a timestamp field.
 
-> Secondary index
->     An index whose search key is different from the sequential ordering of the data file.
+* Secondary index: An index whose search key is different from the sequential ordering of the data file.
 
 Index files could be dense or sparse. A dense index file would consist of entries for each search key value in the data file. On the other hand, a sparse index file would contain only a subset of the search key values. This reduces the space overhead and makes insertion and deletion easier. But it is slower at diresctly locating records as compared to a dense index.
 
