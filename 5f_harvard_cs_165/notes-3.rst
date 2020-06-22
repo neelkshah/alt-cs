@@ -2,7 +2,7 @@
 Database Indexing
 #################
 
-`UC Davis PDF<https://web.cs.ucdavis.edu/~green/courses/ecs165a-w11/7-indexes.pdf>`_
+`UC Davis PDF <https://web.cs.ucdavis.edu/~green/courses/ecs165a-w11/7-indexes.pdf>`_
 
 ************
 Introduction
@@ -37,6 +37,5 @@ Primary index
    In a sequentially ordered data file, the index whose search key specifies the sequential order of the file. For a relation, there can be at most one primary index.
 
 .. note::
-
    The search key and primary key need not be the same. For example, primary key could be order_id, but search key could be a timestamp field.
 
