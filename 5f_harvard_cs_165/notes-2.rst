@@ -2,9 +2,8 @@
 Database Cracking
 #################
 
-``Keywords
-
-self-organizing databases, column organized datastores, sideways cracking``
+Keywords::
+   self-organizing databases, column organized datastores, sideways cracking
 
 ***************
 Quick Refresher
