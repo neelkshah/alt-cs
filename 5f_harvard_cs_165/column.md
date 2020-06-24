@@ -39,4 +39,19 @@
 
 ### Compression
 
-
+* Compressing column-at-a-time is good, compressing projections of columns is much better.
+* CPU speed has increased, memory access speed has not. We have spare cycles to decompress data. Moreover, we bring in smaller amounts of data. (CPU expends less time fetching from memory)
+* Use simpler ("lighter") compression schemes that compress data less effectively into fixed-length records than complex ("heavier") schemes that pack data effectively but sacrifice the fixed length of the compressed records. This enables one to leverage the SIMD instructions of the CPU.
+* Frequency partitioning - organize each column based on the frequency of values that appear in the column, ie. frequent values are stored together in the same page(s). Per page dictionaries become much more compact. For ex. a page having only two distinct values needs a single-bit dictionary.
+* Compression algorithms include:
+   - Run-length Encoding (replaces arbitrary blocks of values, not fixed length)
+   - Bit-Vector Encoding
+   - Dictionary (requires fast hashing - cuckoo hashing)
+   - Frame of Reference (can be combined with delta coding)
+   - Patching Technique
+* Operations can be performed on uncompressed data. For example addition becomes multiplication if data is compressed using RLE. However, the DB kernel must be aware of how data is compressed. This can make the kernel code non-extensible by causing a long if-else ladder. Components called *compression blocks* are used to provide a set of standard APIs to the query executor. The operator can call, for example, the `getSize()` method of the compression block to get the number of compressed records. Therefore, every time a new compression scheme is to be added, it must expose an appropriate interface. But no changes are required to be made in the query operators. The interface must consist of the following:
+   - Code that compresses data
+   - Code that breaks up compressed data into compression blocks during a scan of compressed data from storage
+   - Code that iterates through compression block and optionally decompresses dta during the scan.
+   - Values for all relevant properties to be exposed
+   - Code that derives high level information (metadata specific to algo)
