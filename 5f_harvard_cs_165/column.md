@@ -55,3 +55,13 @@
    - Code that iterates through compression block and optionally decompresses dta during the scan.
    - Values for all relevant properties to be exposed
    - Code that derives high level information (metadata specific to algo)
+* Recent column-stores keep data in the columns until much later in the query plan, and instead operate directly on the columns. Tuple reconstruction has to be performed at least `N-1` times where `N` is the number of attributes referenced. Projections make tuple reconstruction easier.
+![Column Store Features](resources/late_mat.png "Late Materialization")[Source: Abadi et al. Column Stores](http://www.cs.umd.edu/~abadi/papers/abadi-column-stores.pdf)
+* Advantages of LM:
+   - Avoid materialization of tuples rendered unnecessary by selection and aggregation.
+   - Avoid unnecessary decompression
+   - Cache performance is improved by populating it with "pure" columnar data
+   - Vectorization benefits can be obtained with fixed length records
+* Multi-column blocks or vector blocks can be used as the storage construct. This structure is cache-resident. This allows pipelining of predicate evaluation output directly to the intersection operator, enabling construction to occur while the values to be stitched together are present in cache.
+
+### Joins
