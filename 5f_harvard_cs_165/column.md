@@ -17,3 +17,8 @@
 
 ![Column Store Features](resources/col_features.png "Column-store Features")[Source: Stanford CS-346, 2015](https://web.stanford.edu/class/cs346/2015/notes/old/column.pdf)
 
+## Column Store Internals
+
+### Vectorized Processing
+
+* Two prominent strategies for the query execution layer - volcano style tuple-at-a-time-processing, and full materialization. In the volcano model, the `next()` 
