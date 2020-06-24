@@ -38,3 +38,5 @@
 * The overheads of profiling performance metrics for a vector is amortized over all the tuples in the vector. Strong profiling also enables on-the-fly-decisions about splitting tuples into vectors.
 
 ### Compression
+
+
