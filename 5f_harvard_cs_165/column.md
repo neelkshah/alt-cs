@@ -21,4 +21,20 @@
 
 ### Vectorized Processing
 
-* Two prominent strategies for the query execution layer - volcano style tuple-at-a-time-processing, and full materialization. In the volcano model, the `next()` 
+* Two prominent strategies for the query execution layer - volcano style tuple-at-a-time-processing, and full materialization.
+* In the volcano model, the `next()` method of each relational operator in the query tree produces one new tuple at a time, obtaining input data by calling the `next()` method on its child operators in the tree.
+* This minimizes the materialization of intermediate results, but results in a large number of function calls, and pulls in complete tuples even though they might not be required.
+* In full materialization, each query operator works in isolation, consuming from storage and writing to storage.
+* This minimizes the number of function calls, and allows execution in very tight for loops, but results in large intermediate results.
+* Example: `select avg(A) from R where A < 100`. In the FM model, the select operator scans the complete column A, materialzes the intermediate results, and then the aggregation operator computes the aggregate. In the volcano model, on the other hand, the select operator pushes qualifying tuples, one at a time, to the aggregation operator.
+* Some column-oriented data stores try to exploit the intermediate results by caching them and treating them as miniature DBs.
+* Vectorized execution attempts to strike a balance between the two earlier approaches. In the vectorized approach, control flow is the same as in the volcano model, except that the `next()` method of each operator returns a vector of N tuples as opposed to only a single tuple. At the data processing level, the primitive operators mimic the block model, processing vector at a time instead of tuple at a time. Thus, vectorization combines pipelining with the array-loops pattern.
+* The typical size of the vectors is such that each vector fits in L1 cache. Modern column stores work with one vector of one column at a time. This means the L1 cache has to fit only one vector, its possible output and auziliary data structures. 
+* Vectorization reduces interpretation overhead (function calls performed by query interpreter)
+* It offers better cache locality.
+* There are opportunities for compiler optimization. For example, the tight loops over arrays typically trigger compilers to generate SIMD isntructions.
+* Tuple-at-a-time execution has to check for local conditions at every tuple (ex. output buffer overflow). Vectorized execution needs only check once per vector.
+* Tight vectorized loops on modern CPUs generate multiple outstanding cache misses, for different values in a vector. This is because when a cache miss occurs, modern CPUs can speculate ahead in such loops. The alte binding API calls which the CPU encounters between processing different tuples in the tuple-at-a-time architecture inhibits this pattern.
+* The overheads of profiling performance metrics for a vector is amortized over all the tuples in the vector. Strong profiling also enables on-the-fly-decisions about splitting tuples into vectors.
+
+### Compression
