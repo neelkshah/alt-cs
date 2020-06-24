@@ -15,5 +15,5 @@
 8. Database cracking and adaptive indexing: Each query partially reorganizes the columns it touches to allow future queries to access data faster. Fixed-width columns allow for efficient physical reorganization, while vector processing means whole blocks of columns can be efficiently reorganized in one go. [More on database cracking](cracking.md)
 9. Efficient loading architectures: Column stores may be slower to load and update data because each column is written separately and data has to be compressed. Since this is a significant concern in data warehouse systems, optimized loaders are important. For example, C-store first writes data into an uncompressed, write-optimzed buffer (WOS) and then flushes large, compressed batches of it periodically.
 
-![Column Store Features](resources/col_features.png "Column-store Features")[Source: Stanford CS-346, 2015](*https://web.stanford.edu/class/cs346/2015/notes/old/column.pdf*)
+![Column Store Features](resources/col_features.png "Column-store Features")[Source: Stanford CS-346, 2015](https://web.stanford.edu/class/cs346/2015/notes/old/column.pdf)
 
