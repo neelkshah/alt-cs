@@ -1,6 +1,4 @@
-# Alt-CS
-
-## Harvard CS-165 Data Systems
+# Harvard CS-165 Data Systems
 
 * [Section 1](./5f_harvard_cs_165/section_1.md)
 * [Section 2](./5f_harvard_cs_165/section_2.md)
