@@ -15,6 +15,7 @@ Can be viewed as a single-user single-threaded task, concurrency is mananged by 
    - Get table information from the Catalog Manager, used to check attribute references and data types of attributes.
    - User authorization can be deferred till execution time, benefits of doing so :- can impose row level security, users can share query plans
    - Constraint check constant expressions (can also be deferred to execution time)
+
 ### Query Rewrite
    - Sometimes a logical component included in Parser or Optimizer
    - View expansion: replace views with actual tables and predicates, handle column references in views
