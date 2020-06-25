@@ -1,19 +1,46 @@
-# Column-Stores
+# Section 3
 
-* Column-store systems completely vertically partition a DB into a collection of individual columns that are stored separately.
-* If a single record needs to be fetched, column stores need multiple seeks, whereas a row store can do it in a single seek. If there are many records to be accessed, the seek time gets amortized over records. As more and more records are accessed, transfer time begins to dominate seek time and column stores begin to perform better than row stores. Hence columns stores are typically used in analytic applications, with queries that scan a large fraction of individual tables and compute aggregates or statistics over them.
+***
 
-## Specific Ideas
+Column-oriented stores, MonetDB, C-Store, Vector-Wise, database cracking
 
-1. Virtual IDs: Explicitly representing a key with each value stored in the column bloats the size of the data on disk, and makes I/O less efficient. Instead, we could use the offset of the tuple in the column as a virtual identifier. Attributes can be stored as fixed-width dense arrays, and each record can be stored at the same array position across columns. This makes it very simple to access a record based on its offset. The *i*-th value in column *A* resides at the location *startOf(A) + i\*width(A)*. Another major advantage of column stores is improved compression ratio. Now it is entirely possible that a good compression algorithm compresses data in a non-fixed-length way, such that data cannot be stored in an array. This makes it a trade-off between simplified sequential access and greater compression.
-2. Block-oriented and vectorized processing: In row-stores, multiple function calls are made to process a tuple at a time. In column stores, since we process a single column at a time, we make a single call to the column. Values are chunked into vectors. These vectors are processed one at a time, making use of bitwise operation and SIMD hardware support.
-3. Late materialization: Tuples reconstruction is delayed, allowing CPU to run tight for loops over a single column. Results in CPU and cache-friendly patterns.
-4. Column-specific compression: The same attribute is stored together, hence specific simple compression schemes can be used to achieve good compression ratios.
-5. Direct operation on compressed data: By delaying decompression until it is absolutely necessary, column stores greatly improve utilization of memory bandwidth as the columns are compressed in memory as opposed to wider decompressed tuples.
-6. Efficient join implementations: 
-7. Redundant representations of individual columns in different sort orders: storing columns based on attributes that are heavily used in the workload can result in substantial performance gains. Moreover, sorted columns can be aggresively compressed.
-8. Database cracking and adaptive indexing: Each query partially reorganizes the columns it touches to allow future queries to access data faster. Fixed-width columns allow for efficient physical reorganization, while vector processing means whole blocks of columns can be efficiently reorganized in one go. [More on database cracking](cracking.md)
-9. Efficient loading architectures: Column stores may be slower to load and update data because each column is written separately and data has to be compressed. Since this is a significant concern in data warehouse systems, optimized loaders are important. For example, C-store first writes data into an uncompressed, write-optimzed buffer (WOS) and then flushes large, compressed batches of it periodically.
+***
+
+## Column Store Implementations
+
+### C-Store:
+   - Data represented on disk as column files
+   - ROS and WOS: ROS has compressed, sorted columns; WOS has uncompressed, not partitioned data; a process moves data between ROS and WOS periodically
+   - Compression methods can be different for each column and depend on data type, whether the column is sorted and number of distinc values
+   - Projections: groups of columns sorted according to some attribute; different sort orders can be maintained to optimize certain frequent queries.
+   - C-Store has sparse indices: leverage sorting for efficient indexing
+   - No overwrite storage: maintain a delete column.
+   - Vertica is implemented as a shared nothing massively parallel distributed database
+
+### MonetDB and VectorWise:
+   * MonetDB:
+      - Column at a time algebra: BAT Algebra; operators consume and produce BATs. Contrast with tuple at a time, pull based, iterator approach
+      - Late materialization allows a front-end/back-end architecture, all processing is done on BATs by translating user queries to BAT algebra in front-end.
+      - Why is BAT algebra faster? Hard coded semantics, predicate-less operators, therefore no expression interpreter needed. Complex expressions still have to be mapped to a sequence of BAT algebra operations but this is done at a higher granularity than tuple based RDBMS expression interpreter. (the RISC approach to db query languages)
+      - Runtime query optimization, compiling code on the fly
+      - Explicit additional table and operators for transaction management, so that read-only queries avoid that overhead; update columns are maintained for each base column
+   * VectorWise:
+      - Vecrorised execution model, solves the problem of full materialization of intermediate results in MonetDB
+      - Has buffer management, hence I/O is managed
+
+### Other Implementations:
+
+   * Two main architectures:
+      - Columnar storage only
+      - Native column-store designs
+
+   * IBM BLU/BLINK:
+      - Frequency partitioning
+
+   * MS SQL Server:
+      - Column indexes for enhancing scans or as a primary storage choice
+
+## Column Store Internals
 
 ![Column Store Features](resources/col_features.png "Column-store Features")[Source: Stanford CS-346, 2015](https://web.stanford.edu/class/cs346/2015/notes/old/column.pdf)
 
@@ -29,12 +56,11 @@
 * Example: `select avg(A) from R where A < 100`. In the FM model, the select operator scans the complete column A, materialzes the intermediate results, and then the aggregation operator computes the aggregate. In the volcano model, on the other hand, the select operator pushes qualifying tuples, one at a time, to the aggregation operator.
 * Some column-oriented data stores try to exploit the intermediate results by caching them and treating them as miniature DBs.
 * Vectorized execution attempts to strike a balance between the two earlier approaches. In the vectorized approach, control flow is the same as in the volcano model, except that the `next()` method of each operator returns a vector of N tuples as opposed to only a single tuple. At the data processing level, the primitive operators mimic the block model, processing vector at a time instead of tuple at a time. Thus, vectorization combines pipelining with the array-loops pattern.
-* The typical size of the vectors is such that each vector fits in L1 cache. Modern column stores work with one vector of one column at a time. This means the L1 cache has to fit only one vector, its possible output and auziliary data structures. 
-* Vectorization reduces interpretation overhead (function calls performed by query interpreter)
-* It offers better cache locality.
+* The typical size of the vectors is such that each vector fits in L1 cache. Modern column stores work with one vector of one column at a time. This means the L1 cache has to fit only one vector, its possible output and auziliary data structures.
+* Vectorization reduces interpretation overhead (function calls performed by query interpreter), and offers better cache locality.
 * There are opportunities for compiler optimization. For example, the tight loops over arrays typically trigger compilers to generate SIMD isntructions.
 * Tuple-at-a-time execution has to check for local conditions at every tuple (ex. output buffer overflow). Vectorized execution needs only check once per vector.
-* Tight vectorized loops on modern CPUs generate multiple outstanding cache misses, for different values in a vector. This is because when a cache miss occurs, modern CPUs can speculate ahead in such loops. The alte binding API calls which the CPU encounters between processing different tuples in the tuple-at-a-time architecture inhibits this pattern.
+* Tight vectorized loops on modern CPUs generate multiple outstanding cache misses, for different values in a vector. This is because when a cache miss occurs, modern CPUs can speculate ahead in such loops. The late binding API calls which the CPU encounters between processing different tuples in the tuple-at-a-time architecture inhibits this pattern.
 * The overheads of profiling performance metrics for a vector is amortized over all the tuples in the vector. Strong profiling also enables on-the-fly-decisions about splitting tuples into vectors.
 
 ### Compression
@@ -56,6 +82,10 @@
    - Values for all relevant properties to be exposed
    - Code that derives high level information (metadata specific to algo)
 
+![Compressed blocks API](resources/compressed_block_api.png "Compressed blocks")
+
+![Compressed blocks pseudo-code](resources/compressed_block_pseudo.png "Compressed blocks")
+
 ### Late Materialization
 
 * Recent column-stores keep data in the columns until much later in the query plan, and instead operate directly on the columns. Tuple reconstruction has to be performed at least `N-1` times where `N` is the number of attributes referenced. Projections make tuple reconstruction easier.
@@ -67,4 +97,29 @@
    - Vectorization benefits can be obtained with fixed length records
 * Multi-column blocks or vector blocks can be used as the storage construct. This structure is cache-resident. This allows pipelining of predicate evaluation output directly to the intersection operator, enabling construction to occur while the values to be stitched together are present in cache.
 
-### Joins
+## Database Cracking
+
+***
+
+[Video of the talk](https://www.youtube.com/watch?v=FQORtJtqovY)
+
+***
+
+### Refresher on indexing
+
+[Database indexing](indexing.md)
+
+### Problem statement
+
+* Current implementations first load data, then experts (people with domain knowledge and DB knowledge) tune the DB by creating indexes, and then the DB is ready for querying. Data --> Query time is very high.
+* The workload (data + queries) is not always stable. An index is created with a workload profile in mind. You spend resources to create and maintain indices. One problem in CS is that we build a data structure assuming we know our exact need and its exact use, and expend time and resources building said structure.
+* All inner indices are stored on disk. So assuming a 2-level index, the secondary index has to make multiple disk accesses to fetch records from the primary index. Secondary indices are already dense and unsorted. This means a ton of disk accesses.
+* Thus indexing needs to be optimal ALWAYS, and not just at the start of querying time.
+
+### Cracking
+
+* We do on-the-fly physical reorganization of data in-memory with every query
+* The data that satisfies the predicate, ie. only the data we touch is physically reorganized. For example, if we need all values between 5 and 10, we physically sort the column so that it is broken into three pieces, less than 5, between 5 and 10, and greater than 10.
+* As we keep on doing this, the number of values to be sorted tends to become smaller, and at any time, we have to touch at most two pieces. (In the extreme case, each piece is own value - terrible, but then there are checks in place to avoid mindless cracking)
+* Now these changes need to be propagated to the other columns as well. The key idea is that I/O must always be performed in a sequential manner.
+* Propagation is done in a lazy manner. If there is a query on A-B, B is re-organized. If there's a query on A-C, C is re-organized, and so on. There's always a leading column that has the latest re-organization. This is referred to as sideways cracking: cracking that is propagated sideways.
