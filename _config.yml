@@ -1,1 +1,13 @@
+title: Alt-CS
+description: An alternative take on Computer Science
+
+baseurl: "/alt-cs"
+url: "https://neelkshah.github.io"
+
 theme: jekyll-theme-cayman
+
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true

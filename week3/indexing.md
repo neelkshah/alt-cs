@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Database Indexing
 
 [UC Davis Paper](https://web.cs.ucdavis.edu/~green/courses/ecs165a-w11/7-indexes.pdf)

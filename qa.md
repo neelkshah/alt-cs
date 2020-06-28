@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Questions, and hopefully, Answers
 
 1. Could compression in column-stores affect algorithm complexity of DB operations?

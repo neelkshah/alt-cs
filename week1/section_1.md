@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Section 1
 
 ***
@@ -76,4 +80,3 @@ Data is vertically partitioned and each column is stored separately on disk. Ben
 6. (Compute) Redundant representation of column in different sort orders
 7. Database cracking (Compute): columns are sorted lazily and in chunks when queries are executed on them, reducing upfront cost
 8. Efficient loading (IO) using a write buffer to store uncompressed data
-

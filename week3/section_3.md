@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Section 3
 
 ***
@@ -42,7 +46,7 @@ Column-oriented stores, MonetDB, C-Store, Vector-Wise, database cracking
 
 ## Column Store Internals
 
-![Column Store Features](resources/col_features.png "Column-store Features")[Source: Stanford CS-346, 2015](https://web.stanford.edu/class/cs346/2015/notes/old/column.pdf)
+![Column Store Features](../assets/col_features.png "Column-store Features")[Source: Stanford CS-346, 2015](https://web.stanford.edu/class/cs346/2015/notes/old/column.pdf)
 
 ## Column Store Internals
 
@@ -82,14 +86,14 @@ Column-oriented stores, MonetDB, C-Store, Vector-Wise, database cracking
    - Values for all relevant properties to be exposed
    - Code that derives high level information (metadata specific to algo)
 
-![Compressed blocks API](resources/compressed_block_api.png "Compressed blocks")
+![Compressed blocks API](../assets/compressed_block_api.png "Compressed blocks")
 
-![Compressed blocks pseudo-code](resources/compressed_block_pseudo.png "Compressed blocks")
+![Compressed blocks pseudo-code](../assets/compressed_block_pseudo.png "Compressed blocks")
 
 ### Late Materialization
 
 * Recent column-stores keep data in the columns until much later in the query plan, and instead operate directly on the columns. Tuple reconstruction has to be performed at least `N-1` times where `N` is the number of attributes referenced. Projections make tuple reconstruction easier.
-![Column Store Features](resources/late_mat.png "Late Materialization")[Source: Abadi et al. Column Stores](http://www.cs.umd.edu/~abadi/papers/abadi-column-stores.pdf)
+![Column Store Features](../assets/late_mat.png "Late Materialization")[Source: Abadi et al. Column Stores](http://www.cs.umd.edu/~abadi/papers/abadi-column-stores.pdf)
 * Advantages of LM:
    - Avoid materialization of tuples rendered unnecessary by selection and aggregation.
    - Avoid unnecessary decompression
