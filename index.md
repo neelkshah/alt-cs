@@ -12,4 +12,6 @@ layout: default
     - [Section 3](./week3/section_3.md)
 * Week 4
     - [Section 4](./week4/section_4.md)
+    - [Db architecture Section 6, 7](./week4/db-architecture-6-7.md)
 * [Q-&-A](./qa.md)
+
