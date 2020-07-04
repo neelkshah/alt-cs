@@ -2,15 +2,11 @@
 layout: default
 ---
 
-# Section 4
+# Architecture of a Database System
 
-***
+___
 
-Architecture, relational query processing
-
-***
-
-## Relational Query Processor
+## Section 4 - Relational Query Processor
 
 Can be viewed as a single-user single-threaded task, concurrency is mananged by lower layers of the system. (Exception - buffer pool pages)
 
@@ -62,7 +58,7 @@ Optimizer's functionality can be extended to:
 
    - SQL semantics dictate that a single SQL statement should not be able to see its own updates, careful implementation is needed to ensure this.
    - ***The Halloween problem*** is an example of what can go wrong. The problem arises on statements like 
-      >give everyone whose salary is under $20K a 10% raise.” 
+      >give everyone whose salary is under $20K a 10% raise.
    
    - If a plan uses an index scan iterator over salary field piplined into an update iterator, it results in all low-paid employees receiving repeated raises until they earn more than $20K.
    - One way to avoid this problem is not using indexes on the columns being updated, but this can be quite inefficient.
