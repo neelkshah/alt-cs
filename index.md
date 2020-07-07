@@ -17,5 +17,6 @@ layout: default
     - [Note on Jive join](./week4/jive-join.md)
 * Week 5
     - [Paper 3: Columnar Storage in Microsoft SQL Server 2012](./week5/3_columnar_storage_in_sql_server_12.md)
+    - [Paper 2: BI queries in a Blink](./week5/2-bi-queries-in-a-blink.md)
 * [Q-&-A](./qa.md)
 
