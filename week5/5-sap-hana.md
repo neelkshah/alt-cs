@@ -14,9 +14,15 @@ ___
 
 Hana SQL queries as well as more expressive interaction models. Relational data resides in the combined column and row engine and can be converted from one layout to another to allow query expressions with tables in both layouts. Hana is designed to be extensible where different engines can be plugged in to process more expressive query languages.
 
+> Main memory centric
+
 It aims to to be a main memory centric data management system. One of it's main features is that data structures are optimized for cache-efficiency rather than disk storage. While data is stored in memory, it is also stored by the persistence layer to persistence layer for recovery and backup.
 
+> Support many query languages
+
 To support and optimize many query languages, Hana converts queries to a more expressive abstract data flow model. Following this route multiple domain-specific languages can be supported as long as compiler can generate intermediate calculation model representation.
+
+> In-built special operators
 
 A calculation model constitutes a logical execution plan consisting of an acyclic data flow graph with nodes representing operators (plan operations) and edges reflecting the data flow (plan data). To be expressive, Hana needs and does support a huge variety of special operators for implementing application-specific components in the database kernel. Most of these operators speed up OLAP by exploiting columnar data layout. The special operators allow Hana to model specific domains like,
 
