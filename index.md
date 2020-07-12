@@ -16,8 +16,8 @@ layout: default
     - [DB architecture Section 6, 7](./week4/db-architecture-6-7.md)
     - [Note on Jive join](./week4/jive-join.md)
 * Week 5
-    - [Paper 3: Columnar Storage in Microsoft SQL Server 2012](./week5/3_columnar_storage_in_sql_server_12.md)
     - [Paper 2: BI queries in a Blink](./week5/2-bi-queries-in-a-blink.md)
+    - [Paper 3: Columnar Storage in Microsoft SQL Server 2012](./week5/3_columnar_storage_in_sql_server_12.md)
     - [Paper 5: SAP HANA Architecture Overview](./week5/5-sap-hana.md)
 * [Q-&-A](./qa.md)
 
