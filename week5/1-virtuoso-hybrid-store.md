@@ -6,7 +6,7 @@ layout: default
 
 ___
 
-This paper discusses the design choices met in applying column store techniques under the twin requirements of performing well on the unpredictable, semi-structured RDF data and more typical relational BI workloads. Virtuoso started out as a row-wise transaction oriented RDBMS and transitioned to being an RDF graph store and subsequently started using column-wise storage and vectored execution. The main incentive for using column-wise storage was its excellent space efficiency, which suited Virtuoso's large RDF applications.
+This paper discusses the design choices met in applying column store techniques under the twin requirements of performing well on the unpredictable, semi-structured RDF data and more typical relational BI workloads. Virtuoso started out as a row-wise transaction oriented RDBMS and transitioned to being an RDF (Resource Description Framework) graph store and subsequently started using column-wise storage and vectored execution. The main incentive for using column-wise storage was its excellent space efficiency, which suited Virtuoso's large RDF applications.
 
 
 ## Column Store Implementation
@@ -16,6 +16,8 @@ This paper discusses the design choices met in applying column store techniques 
 * For row-wise indexes, the table row itself is stored on the index leaf corresponding to the primary key entry.
 
 * In case of column-wise indexes, the table is divided into segments (horizontal partitions, thousands of rows each) and the index is sparse and row-wise at the top, with the leaf storing references to compressed columns of that segment.
+
+> ![Column storage in Virtuoso](../assets/virtuoso-column-storage.png "Virtuoso column storage")
 
 * Virtuoso has a small page size (8K) as compared to other column stores to facilitate the storage of both row-wise and column-wise data structures in the same buffer pool. Smaller pages also means low latency for random inserts.
 
