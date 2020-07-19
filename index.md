@@ -21,6 +21,7 @@ layout: default
     - [Paper 3: Columnar Storage in Microsoft SQL Server 2012](./week5/3_columnar_storage_in_sql_server_12.md)
     - [Paper 5: SAP HANA Architecture Overview](./week5/5-sap-hana.md)
 * Week 6
+    - [Paper 4: Vectorwise: Beyond Column Stores](./week6/4_vectorwise.md)
     - [Paper 7: MonetDB: Two Decades of Research in Column-oriented Database Architectures](./week6/7-monetDB.md)
     - [Paper 9: HYRISE Hybrid Main Memory Store](./week6/9_hyrise_hybrid_storage.md)
 * [Q-&-A](./qa.md)
