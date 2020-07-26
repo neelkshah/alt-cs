@@ -24,5 +24,7 @@ layout: default
     - [Paper 4: Vectorwise: Beyond Column Stores](./week6/4_vectorwise.md)
     - [Paper 7: MonetDB: Two Decades of Research in Column-oriented Database Architectures](./week6/7-monetDB.md)
     - [Paper 9: HYRISE Hybrid Main Memory Store](./week6/9_hyrise_hybrid_storage.md)
+* Week 7
+    - [Paper 8: HyPer: Adapting Columnar Main-Memory Data Management for Transactional AND Query Processing](./week7/8-hyper.md)
 * [Q-&-A](./qa.md)
 
