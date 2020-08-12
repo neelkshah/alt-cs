@@ -26,5 +26,7 @@ layout: default
     - [Paper 9: HYRISE Hybrid Main Memory Store](./week6/9_hyrise_hybrid_storage.md)
 * Week 7
     - [Paper 8: HyPer: Adapting Columnar Main-Memory Data Management for Transactional AND Query Processing](./week7/8-hyper.md)
+* Week 8
+    - [Materialization Strategies in Columnar DBMS](./week8/materialization-strategies-columnar-dbms.md)
 * [Q-&-A](./qa.md)
 
