@@ -22,5 +22,7 @@ layout: default
     - [Paper 5: SAP HANA Architecture Overview](./week5/5-sap-hana.md)
 * Week 6
     - [Paper 9: HYRISE Hybrid Main Memory Store](./week6/9_hyrise_hybrid_storage.md)
+* Week 8
+    - [Materialization Strategies in Columnar DBMS](./week8/materialization-strategies-columnar-dbms.md)
 * [Q-&-A](./qa.md)
 
