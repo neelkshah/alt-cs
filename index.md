@@ -28,5 +28,6 @@ layout: default
     - [Paper 8: HyPer: Adapting Columnar Main-Memory Data Management for Transactional AND Query Processing](./week7/8-hyper.md)
 * Week 8
     - [Materialization Strategies in Columnar DBMS](./week8/materialization-strategies-columnar-dbms.md)
+    - [Optimizing Database Architecture for the Memory Access Bottleneck](./week8/optimizing-for-memory-bottleneck.md)
 * [Q-&-A](./qa.md)
 
